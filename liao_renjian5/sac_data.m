@@ -2,13 +2,10 @@ clear
 clc
 close
 addpath('libs/tensor_toolbox_2.5');
-
 addpath('libs/poblano_toolbox_1.1/');
-
 addpath libs/SPC/Function_SPC/
 
 sac_temp=load('sac\temp.sac.txt');
-
 sensor_count=0;
 for sensor=1:1:900
     sensor_count=sensor_count+1;
@@ -16,7 +13,7 @@ for sensor=1:1:900
     data_norm_temp=NormLiza(data_temp,'mm');
     data_reshape_temp_ori=reshape(data_norm_temp,12,6,2);
     
-    for rank=2:2
+    for rank=1:1
         %         for count=1:10
         
         data_reshape_temp=data_reshape_temp_ori;

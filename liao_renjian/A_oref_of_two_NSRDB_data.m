@@ -3,17 +3,33 @@ clc
 close
 addpath('libs/tensor_toolbox_2.5');
 addpath('libs/poblano_toolbox_1.1/');
-addpath libs/SPC/Function_SPC/
-addpath libs/
-% data=load('./tceq/wind.tceq.mat');
+data=load('./tceq/wind.tceq.mat');
 % data=load('./tceq/temp.tceq.mat');
 % data=load('./tceq/ozone.tceq.mat');
 
-% datawindOld=data.wind0x2Etceq;
+datawindOld=data.wind0x2Etceq;
 % datawindOld=data.temp0x2Etceq;
 % ozone0x2Etceq
 % datawindOld=data.ozone0x2Etceq;
 
+
+
+m=24;
+n=5;
+z=3;
+s=26;
+DataWind26=zeros(24,5,3,26);
+
+for i=1:26
+    WindOriData=datawindOld(1:360,i);
+    WindOriDataNorm=NormLiza(WindOriData,'mm');
+    DataWind26(:,:,:,i)=reshape(WindOriDataNorm,m,n,z);
+end
+
+for loop=1:4
+    UA{loop}=tenmat(DataWind26,loop);
+    sumCorr(loop)=corrMAr(UA{loop}.data);
+end
 
 
 %
@@ -62,21 +78,21 @@ addpath libs/
 % end
 % ncdc_temp=load('ncdc\temp.ncdc.txt');
 % ncdc_temp=load('ncdc\sol.ncdc.txt');
-ncdc_temp=load('ncdc\prec.ncdc.txt');
+% ncdc_temp=load('ncdc\prec.ncdc.txt');
+% 
+% sensor_count=0;
+% for sensor=1:1:72
+%     sensor_count=sensor_count+1;
+%     data_temp=ncdc_temp(10:105,sensor);
+%     
+%     data_reshape=reshape(data_temp,12,4,2);
+%     data_all(:,:,:,sensor_count)=data_reshape;
+% end
 
-sensor_count=0;
-for sensor=1:1:72
-    sensor_count=sensor_count+1;
-    data_temp=ncdc_temp(10:105,sensor);
-    
-    data_reshape=reshape(data_temp,12,4,2);
-    data_all(:,:,:,sensor_count)=data_reshape;
-end
-
-for loop=1:4
-    UA{loop}=tenmat(data_all,loop);
-    sumCorr(loop)=corrMAr(UA{loop}.data);
-end
+% for loop=1:4
+%     UA{loop}=tenmat(data_all,loop);
+%     sumCorr(loop)=corrMAr(UA{loop}.data);
+% end
 
 
 

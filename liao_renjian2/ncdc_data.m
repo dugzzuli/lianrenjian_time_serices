@@ -9,7 +9,7 @@ addpath libs/SPC/Function_SPC/
 % ncdc_temp=load('ncdc\sol.ncdc.txt');
 ncdc_temp=load('ncdc\prec.ncdc.txt');
 
-for count_rank=1:5
+for count_rank=1:2
     
 sensor_count=0;
 for sensor=1:1:72
@@ -32,7 +32,7 @@ for sensor=1:1:72
 %             'Factor_Generator', 'stochastic');
             
               rand('state',0)
-            [P, P0, output]=cp_wopt(tt_data,W,rank);
+            [P, P0, output]=cp_wopt(tt_data,W,rank,'init','nvecs');
             
             KTT=full(P);
             preData=KTT(:,4,2);

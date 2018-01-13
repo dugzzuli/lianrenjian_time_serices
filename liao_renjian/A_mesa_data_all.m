@@ -18,7 +18,7 @@ for i=1:20
 end
 %获取后面264个数据进行组成张量格式数据
 
-for rank=1:5
+for rank=1:10
     for count=1:2
         data_test_reshape_norm_mesa=data_all;
         oriData=data_test_reshape_norm_mesa(:,5,4,:);
@@ -26,7 +26,10 @@ for rank=1:5
         tt_data_test_reshape_norm_mesa=tensor(data_test_reshape_norm_mesa);
         W=ones(12,5,4,20);
         W(:,5,4,:)=0;
-        [P, P0, output]=cp_wopt(tt_data_test_reshape_norm_mesa,W,rank);
+        rand('state',0)
+        M_init = create_guess('Data',tt_data_test_reshape_norm_mesa, 'Num_Factors', rank, ...
+            'Factor_Generator', 'rand');
+        [P, P0, output]=cp_wopt(tt_data_test_reshape_norm_mesa,W,rank,'init',M_init);
         KTT=full(P);
         preData=KTT(:,5,4,:);
         preData=double(preData);
